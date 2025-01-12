@@ -44,8 +44,8 @@ const MainLayout: React.FC = () => {
                     console.log(collapsed, type);
                 }}
             >
-                <div style={{color: 'white', textAlign: 'center', height: '4rem', display: 'flex', justifyContent: 'center', justifyItems: 'center'}}>
-                    <h1 style={{height: '100%'}}>Ph Uni</h1>
+                <div style={{color: 'white', height: '4rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <h1>Ph Uni</h1>
                 </div>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
             </Sider>
