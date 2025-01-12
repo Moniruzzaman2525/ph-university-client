@@ -40,7 +40,7 @@ const MainLayout: React.FC = () => {
               minHeight: 360
             }}
           >
-            content
+            <h1>GThe main content should be there</h1>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
