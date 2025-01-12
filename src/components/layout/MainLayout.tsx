@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Layout, Menu, MenuProps } from 'antd';
+import { Outlet } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -58,7 +59,7 @@ const MainLayout: React.FC = () => {
                             minHeight: 360
                         }}
                     >
-                        <h1>The main content should be there</h1>
+                        <Outlet />
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
