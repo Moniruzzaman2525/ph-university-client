@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { useLoginMutation } from "../redux/feathers/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/feathers/auth/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 
 export const Login = () => {
   const { register, handleSubmit } = useForm()
@@ -12,8 +13,9 @@ export const Login = () => {
 
   const onSubmit = async (data) => {
     const res = await login(data).unwrap()
+    const user = verifyToken(res.data.accessToken)
     dispatch(setUser({
-      user: {},
+      user: user,
       token: res.data.accessToken
     }))
   }
