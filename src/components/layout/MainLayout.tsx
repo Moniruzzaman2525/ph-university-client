@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import {  Outlet } from 'react-router-dom';
-import { adminSlideBar } from '../../routes/admin.routes';
+import { Sidebar } from './Sidebar';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 
 
 
@@ -13,21 +13,7 @@ const MainLayout: React.FC = () => {
 
     return (
         <Layout style={{ height: '100vh' }}>
-            <Sider
-                breakpoint="lg"
-                collapsedWidth="0"
-                onBreakpoint={(broken) => {
-                    console.log(broken);
-                }}
-                onCollapse={(collapsed, type) => {
-                    console.log(collapsed, type);
-                }}
-            >
-                <div style={{color: 'white', height: '4rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <h1>Ph Uni</h1>
-                </div>
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={adminSlideBar} />
-            </Sider>
+            <Sidebar />
             <Layout>
                 <Header style={{ padding: 0 }} />
                 <Content style={{ margin: '24px 16px 0' }}>
@@ -40,9 +26,9 @@ const MainLayout: React.FC = () => {
                         <Outlet />
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
+                {/* <Footer style={{ textAlign: 'center' }}>
                     Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer>
+                </Footer> */}
             </Layout>
         </Layout>
     );
