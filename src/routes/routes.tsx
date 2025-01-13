@@ -9,6 +9,10 @@ import { facultyPaths } from "./faculty.routes";
 
 const router = createBrowserRouter([
     {
+        path: '/',
+        element: <App />,
+    },
+    {
         path: '/admin',
         element: <App />,
         children: routeGenerator(adminPaths)
