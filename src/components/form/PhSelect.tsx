@@ -17,7 +17,7 @@ export const PhSelect = ({ label, name, options }: TPHSelectForm) => {
     return (
         <Controller
             name={name}
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
                 <Form.Item label={label}>
                     <Select
                         {...field}
@@ -25,6 +25,7 @@ export const PhSelect = ({ label, name, options }: TPHSelectForm) => {
                         options={options}
                         size="large"
                     />
+                    {error && <small style={{color: 'red'}}>{error.message}</small>}
                 </Form.Item>
             )}
         ></Controller>

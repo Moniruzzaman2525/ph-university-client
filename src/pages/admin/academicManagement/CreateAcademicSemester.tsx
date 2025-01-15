@@ -2,8 +2,13 @@ import { FieldValues, SubmitHandler } from "react-hook-form"
 import { PHRorm } from "../../../components/form/PHRorm"
 import { Button, Col, Flex } from "antd"
 import { PhSelect } from "../../../components/form/PhSelect"
-import { semesterOptions } from "../../../semester"
-import { monthOptions } from "../../../global"
+import { semesterOptions } from "../../../constants/semester"
+import { monthOptions } from "../../../constants/global"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { academicSemesterSchema } from "../../../schema/academicManagement.schema"
+import { useAcademicSemesterMutation } from "../../../redux/feathers/admin/academicManagement.api"
+import { toast } from "sonner"
+import { TResponse } from "../../../types/global"
 
 
 const currentYear = new Date().getFullYear()
@@ -14,7 +19,12 @@ const yearOptions = [0, 1, 2, 3, 4, 5].map(number => ({
 }))
 
 export const CreateAcademicSemester = () => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+
+  const [addAcademicSemester] = useAcademicSemesterMutation()
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+    const toastId = toast.loading('Creating...')
 
     const name = semesterOptions[Number(data?.name) - 1]?.label
 
@@ -25,7 +35,18 @@ export const CreateAcademicSemester = () => {
       startMonth: data?.startMonth,
       endMonth: data?.endMonth
     }
-    console.log(semesterData)
+    try {
+      const res = await addAcademicSemester(semesterData) as TResponse
+      if (res.error) {
+        toast.error(res.error.data.message, {id: toastId})
+      } else {
+        toast.success('Semester created', {id: toastId})
+      }
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+      toast.error("Something went wrong", {id: toastId})
+    }
   }
 
 
@@ -33,7 +54,7 @@ export const CreateAcademicSemester = () => {
   return (
     <Flex justify="center" align="center">
       <Col span={6}>
-        <PHRorm onSubmit={onSubmit}>
+        <PHRorm onSubmit={onSubmit} resolver={zodResolver(academicSemesterSchema)}>
           <PhSelect label='Name' name='name' options={semesterOptions} />
           <PhSelect label='Year' name='year' options={yearOptions} />
           <PhSelect label='Start Month' name='startMonth' options={monthOptions} />
