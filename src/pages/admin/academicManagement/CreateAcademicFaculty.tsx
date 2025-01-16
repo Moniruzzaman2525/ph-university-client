@@ -1,46 +1,66 @@
-import { Button, Col, Row, Flex } from "antd";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Button, Col, Row, Flex, DatePicker } from "antd";
 import { PHRorm } from "../../../components/form/PHRorm";
 import { PHInput } from "../../../components/form/PHInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { academicFacultySchema } from "../../../schema/academicFaculty.schema";
 import { useCreateAcademicFacultyMutation } from "../../../redux/feathers/admin/academicManagement.api";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
+import { PhSelect } from "../../../components/form/PhSelect";
+import { PHDate } from "../../../components/form/PHDate";
+import moment from "moment";
+const genderOptions = [
+  { value: 'male', label: 'Male' },
+  { value: 'female', label: 'Female' },
+]
+
+const bloodOptions = [
+  { value: 'A+', label: 'A+' },
+  { value: 'A-', label: 'A-' },
+  { value: 'B+', label: 'B+' },
+  { value: 'B-', label: 'B-' },
+  { value: 'AB+', label: 'AB-' },
+  { value: 'AB-', label: 'AB-' },
+  { value: 'O+', label: 'O+' },
+  { value: 'O-', label: 'O-' },
+]
 
 export const CreateAcademicFaculty = () => {
 
   const [createAcademicFaculty] = useCreateAcademicFacultyMutation()
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Creating...')
+    const formData = new FormData();
+    const facultyData = {
+      name: {
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+      },
+      designation: data.designation,
+      gender: data.gender,
+      email: data.email,
+      dateOfBirth: moment(data.dateOfBirth, "D-M-YYYY").toDate(),
+      contactNo: data.contactNo,
+      emergencyContactNo: data.emergencyContactNo,
+      bloodGroup: data.bloodGroup,
+      presentAddress: data.presentAddress,
+      permanentAddress: data.permanentAddress,
+      academicDepartment: data.academicDepartment
+    };
+    formData.append("data", JSON.stringify({ password: data.password, faculty: facultyData }));
     try {
-      const formData = new FormData();
-      const facultyData = {
-        name: {
-          firstName: data.firstName,
-          middleName: data.middleName,
-          lastName: data.lastName,
-        },
-        designation: data.designation,
-        gender: data.gender,
-        email: data.email,
-        dateOfBirth: data.dateOfBirth,
-        contactNo: data.contactNo,
-        emergencyContactNo: data.emergencyContactNo,
-        bloodGroup: data.bloodGroup,
-        presentAddress: data.presentAddress,
-        permanentAddress: data.permanentAddress,
-        academicDepartment: data.academicDepartment
-      };
-      formData.append("data", JSON.stringify({ faculty: facultyData }));
-
       const res = await createAcademicFaculty(formData).unwrap();
-      console.log(res)
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId })
+      } else {
+        toast.success('Semester created', { id: toastId })
+      }
     } catch (error) {
-      console.log(error)
+      toast.error("Something went wrong", { id: toastId })
     }
   };
-
-
-
 
   return (
     <Flex justify="center" align="center">
@@ -52,17 +72,18 @@ export const CreateAcademicFaculty = () => {
               <PHInput type="text" name="middleName" label="Middle Name" />
               <PHInput type="text" name="designation" label="Designation" />
               <PHInput type="text" name="contactNo" label="Contact No" />
-              <PHInput type="text" name="dateOfBirth" label="Date Of Birth" />
+              {/* <PHInput type="text" name="dateOfBirth" label="Date Of Birth" /> */}
+              <PHDate name="dateOfBirth" label="Date Of Birth" />
               <PHInput type="text" name="emergencyContactNo" label="Emergency Contact No" />
               <PHInput type="text" name="permanentAddress" label="Permanent Address" />
-
             </Col>
             <Col span={12}>
               <PHInput type="text" name="lastName" label="Last Name" />
               <PHInput type="password" name="password" label="Password" />
               <PHInput type="text" name="email" label="Email" />
-              <PHInput type="text" name="gender" label="Gender" />
-              <PHInput type="text" name="bloodGroup" label="Blood Group" />
+              <PhSelect label='Gender' name='gender' options={genderOptions} />
+              <PhSelect label='Blood Group' name='bloodGroup' options={bloodOptions} />
+              {/* <PHInput type="text" name="bloodGroup" label="Blood Group" /> */}
               <PHInput type="text" name="presentAddress" label="Present Address" />
               <PHInput type="text" name="academicDepartment" label="Academic Department" />
             </Col>
