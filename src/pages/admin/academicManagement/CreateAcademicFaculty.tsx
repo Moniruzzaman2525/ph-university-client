@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Col, Row, Flex } from "antd";
 import { PHRorm } from "../../../components/form/PHRorm";
 import { PHInput } from "../../../components/form/PHInput";
@@ -5,37 +6,41 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { academicFacultySchema } from "../../../schema/academicFaculty.schema";
 import { useCreateAcademicFacultyMutation } from "../../../redux/feathers/admin/academicManagement.api";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 export const CreateAcademicFaculty = () => {
 
   const [createAcademicFaculty] = useCreateAcademicFacultyMutation()
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Creating...')
+    const formData = new FormData();
+    const facultyData = {
+      name: {
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+      },
+      designation: data.designation,
+      gender: data.gender,
+      email: data.email,
+      dateOfBirth: data.dateOfBirth,
+      contactNo: data.contactNo,
+      emergencyContactNo: data.emergencyContactNo,
+      bloodGroup: data.bloodGroup,
+      presentAddress: data.presentAddress,
+      permanentAddress: data.permanentAddress,
+      academicDepartment: data.academicDepartment
+    };
+    formData.append("data", JSON.stringify({ password: data.password, faculty: facultyData }));
     try {
-      const formData = new FormData();
-      const facultyData = {
-        name: {
-          firstName: data.firstName,
-          middleName: data.middleName,
-          lastName: data.lastName,
-        },
-        designation: data.designation,
-        gender: data.gender,
-        email: data.email,
-        dateOfBirth: data.dateOfBirth,
-        contactNo: data.contactNo,
-        emergencyContactNo: data.emergencyContactNo,
-        bloodGroup: data.bloodGroup,
-        presentAddress: data.presentAddress,
-        permanentAddress: data.permanentAddress,
-        academicDepartment: data.academicDepartment
-      };
-      formData.append("data", JSON.stringify({ faculty: facultyData }));
-
       const res = await createAcademicFaculty(formData).unwrap();
-      console.log(res)
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId })
+      } else {
+        toast.success('Semester created', { id: toastId })
+      }
     } catch (error) {
-      console.log(error)
+      toast.error("Something went wrong", { id: toastId })
     }
   };
 

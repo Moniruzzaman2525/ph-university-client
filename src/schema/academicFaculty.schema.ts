@@ -2,6 +2,9 @@ import { z } from "zod";
 
 
 export const academicFacultySchema = z.object({
+    password: z.string({
+        required_error: 'Password is required'
+    }),
     designation: z.string({
         required_error: 'Designation is required'
     }),
