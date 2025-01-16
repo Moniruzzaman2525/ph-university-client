@@ -25,7 +25,13 @@ export const PhSelect = ({ label, name, options }: TPHSelectForm) => {
                         options={options}
                         size="large"
                     />
-                    {error && <small style={{color: 'red'}}>{error.message}</small>}
+                    <div style={{ height: "20px", marginTop: "5px" }}>
+                        {error ? (
+                            <small style={{ color: "red" }}>{error.message}</small>
+                        ) : (
+                            <small>&nbsp;</small>
+                        )}
+                    </div>
                 </Form.Item>
             )}
         ></Controller>
