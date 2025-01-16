@@ -8,7 +8,7 @@ export const academicFacultySchema = z.object({
     firstName: z.string({
         required_error: 'First Name is required'
     }),
-    middleName: z.string(),
+    middleName: z.string().optional(),
     lastName: z.string({
         required_error: 'Last Name is required'
     }),
@@ -16,13 +16,17 @@ export const academicFacultySchema = z.object({
         required_error: 'Gender is required'
     }),
     email: z.string({
-        required_error: 'Invalid email address'
+        required_error: 'Email address is required'
     }),
     dateOfBirth: z.string({
         required_error: 'Date of Birth is required'
     }),
-    contactNo: z.string().regex(/^\d{10}$/, "Invalid contact number"),
-    emergencyContactNo: z.string().regex(/^\d{10}$/, "Invalid emergency contact number"),
+    contactNo: z.string({
+        required_error: 'Contact number is required'
+    }),
+    emergencyContactNo: z.string({
+        required_error: "Emergency contact number is required"
+    }),
     bloodGroup: z.string({
         required_error: 'Blood Group is required'
     }),
