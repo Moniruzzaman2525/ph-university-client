@@ -8,7 +8,6 @@ const academicManagementApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllSemester: builder.query({
             query: (args) => {
-
                 const params = new URLSearchParams()
                 if (args) {
                     args.forEach((item: TQueryParam) => {
@@ -16,9 +15,29 @@ const academicManagementApi = baseApi.injectEndpoints({
                     });
 
                 }
-
                 return {
                     url: '/academic-semesters',
+                    method: 'GET',
+                    params: params
+                }
+            },
+            transformResponse: (response: TResponseRedux<TAcademicSemester[]>) => {
+                return {
+                    data: response.data,
+                    meta: response.meta
+                }
+            }
+        }),
+        getAllDepartment: builder.query({
+            query: (args) => {
+                const params = new URLSearchParams()
+                if (args) {
+                    args.forEach((item: TQueryParam) => {
+                        params.append(item.name, item.value as string)
+                    });
+                }
+                return {
+                    url: '/academic-departments',
                     method: 'GET',
                     params: params
                 }
@@ -48,4 +67,4 @@ const academicManagementApi = baseApi.injectEndpoints({
 })
 
 
-export const { useGetAllSemesterQuery, useAcademicSemesterMutation, useCreateAcademicFacultyMutation } = academicManagementApi
+export const { useGetAllSemesterQuery, useAcademicSemesterMutation, useCreateAcademicFacultyMutation, useGetAllDepartmentQuery } = academicManagementApi

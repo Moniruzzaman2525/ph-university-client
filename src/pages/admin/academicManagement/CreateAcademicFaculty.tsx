@@ -1,34 +1,30 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Col, Row, Flex, DatePicker } from "antd";
+import { Button, Col, Row, Flex } from "antd";
 import { PHRorm } from "../../../components/form/PHRorm";
 import { PHInput } from "../../../components/form/PHInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { academicFacultySchema } from "../../../schema/academicFaculty.schema";
-import { useCreateAcademicFacultyMutation } from "../../../redux/feathers/admin/academicManagement.api";
+import { useCreateAcademicFacultyMutation, useGetAllDepartmentQuery } from "../../../redux/feathers/admin/academicManagement.api";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { PhSelect } from "../../../components/form/PhSelect";
 import { PHDate } from "../../../components/form/PHDate";
 import moment from "moment";
+import { bloodOptions } from "../../../constants/blood";
 const genderOptions = [
   { value: 'male', label: 'Male' },
   { value: 'female', label: 'Female' },
 ]
-
-const bloodOptions = [
-  { value: 'A+', label: 'A+' },
-  { value: 'A-', label: 'A-' },
-  { value: 'B+', label: 'B+' },
-  { value: 'B-', label: 'B-' },
-  { value: 'AB+', label: 'AB-' },
-  { value: 'AB-', label: 'AB-' },
-  { value: 'O+', label: 'O+' },
-  { value: 'O-', label: 'O-' },
-]
-
 export const CreateAcademicFaculty = () => {
-
   const [createAcademicFaculty] = useCreateAcademicFacultyMutation()
+
+  const {data: departmentData, isFetching} = useGetAllDepartmentQuery(undefined)
+
+  const departmentOptions = departmentData?.data?.map((department) => ({
+    value: department._id, 
+    label: department.name,
+  }));
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading('Creating...')
     const formData = new FormData();
@@ -85,7 +81,7 @@ export const CreateAcademicFaculty = () => {
               <PhSelect label='Blood Group' name='bloodGroup' options={bloodOptions} />
               {/* <PHInput type="text" name="bloodGroup" label="Blood Group" /> */}
               <PHInput type="text" name="presentAddress" label="Present Address" />
-              <PHInput type="text" name="academicDepartment" label="Academic Department" />
+              <PhSelect label="Academic Department" name="academicDepartment" options={departmentOptions || []} />
             </Col>
             <Col span={24}>
               <Button htmlType="submit" block>
