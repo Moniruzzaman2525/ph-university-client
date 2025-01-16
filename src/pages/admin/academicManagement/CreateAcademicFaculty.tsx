@@ -3,7 +3,9 @@ import { PHRorm } from "../../../components/form/PHRorm";
 import { PHInput } from "../../../components/form/PHInput";
 
 export const CreateAcademicFaculty = () => {
-  const onSubmit = () => { };
+  const onSubmit = (data) => {
+    console.log(data)
+  };
 
   return (
     <Flex justify="center" align="center">
