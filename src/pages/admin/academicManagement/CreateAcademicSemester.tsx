@@ -1,5 +1,5 @@
 import { FieldValues, SubmitHandler } from "react-hook-form"
-import { PHRorm } from "../../../components/form/PHRorm"
+import { PHForm } from "../../../components/form/PHForm"
 import { Button, Col, Flex } from "antd"
 import { PhSelect } from "../../../components/form/PhSelect"
 import { semesterOptions } from "../../../constants/semester"
@@ -55,13 +55,13 @@ export const CreateAcademicSemester = () => {
   return (
     <Flex justify="center" align="center">
       <Col span={6}>
-        <PHRorm onSubmit={onSubmit} resolver={zodResolver(academicSemesterSchema)}>
+        <PHForm onSubmit={onSubmit} resolver={zodResolver(academicSemesterSchema)}>
           <PhSelect label='Name' name='name' options={semesterOptions} />
           <PhSelect label='Year' name='year' options={yearOptions} />
           <PhSelect label='Start Month' name='startMonth' options={monthOptions} />
           <PhSelect label='End Month' name='endMonth' options={monthOptions} />
           <Button htmlType="submit">Submit</Button>
-        </PHRorm>
+        </PHForm>
       </Col>
     </Flex>
 
