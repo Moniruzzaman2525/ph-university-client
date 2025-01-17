@@ -12,7 +12,7 @@ type TFormProps = {
     children: ReactNode;
 } & TFormConfig
 
-export const PHRorm = ({ onSubmit, children, defaultValues, resolver }: TFormProps) => {
+export const PHForm = ({ onSubmit, children, defaultValues, resolver }: TFormProps) => {
     const formConfig: TFormConfig = {}
 
     if (defaultValues) {
@@ -24,7 +24,12 @@ export const PHRorm = ({ onSubmit, children, defaultValues, resolver }: TFormPro
 
     const methods = useForm(formConfig)
 
+    const submit: SubmitHandler<FieldValues> = (data) => {
+        onSubmit(data)
+        methods.reset()
+    }
+
     return <FormProvider {...methods}>
-        <Form layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>{children}</Form>
+        <Form layout="vertical" onFinish={methods.handleSubmit(submit)}>{children}</Form>
     </FormProvider>
 }

@@ -1,7 +1,7 @@
 import { Button, Row } from "antd";
 import { FieldValues } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
-import { PHRorm } from "../components/form/PHRorm";
+import { PHForm } from "../components/form/PHForm";
 import { PHInput } from "../components/form/PHInput";
 import { setUser, TUser } from "../redux/feathers/auth/authSlice";
 import { toast } from "sonner";
@@ -41,11 +41,11 @@ export const Login = () => {
   }
   return (
     <Row justify='center' align='middle' style={{ height: '100vh' }}>
-      <PHRorm onSubmit={onSubmit} defaultValues={defaultValues}>
+      <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
         <PHInput type="id" name="id" label="Id:" />
         <PHInput type="text" name="password" label='password' />
         <Button htmlType="submit">Login</Button>
-      </PHRorm>
+      </PHForm>
     </Row>
   )
 }

@@ -8,10 +8,11 @@ type TPHSelectForm = {
         value: string;
         label: string;
         disabled?: boolean
-    }[]
+    }[] | undefined
+    disabled?: boolean
 }
 
-export const PhSelect = ({ label, name, options }: TPHSelectForm) => {
+export const PhSelect = ({ label, name, options, disabled }: TPHSelectForm) => {
 
 
     return (
@@ -24,6 +25,7 @@ export const PhSelect = ({ label, name, options }: TPHSelectForm) => {
                         style={{ width: '100%' }}
                         options={options}
                         size="large"
+                        disabled={disabled}
                     />
                     <div style={{ height: "20px", marginTop: "5px" }}>
                         {error ? (

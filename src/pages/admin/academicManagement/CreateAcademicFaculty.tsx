@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Col, Row, Flex } from "antd";
-import { PHRorm } from "../../../components/form/PHRorm";
+import { PHForm } from "../../../components/form/PHForm";
 import { PHInput } from "../../../components/form/PHInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { academicFacultySchema } from "../../../schema/academicFaculty.schema";
@@ -61,7 +61,7 @@ export const CreateAcademicFaculty = () => {
   return (
     <Flex justify="center" align="center">
       <Col span={12}>
-        <PHRorm onSubmit={onSubmit} resolver={zodResolver(academicFacultySchema)}>
+        <PHForm onSubmit={onSubmit} resolver={zodResolver(academicFacultySchema)}>
           <Row gutter={[16, 16]}>
             <Col span={12}>
               <PHInput type="text" name="firstName" label="First Name" />
@@ -89,7 +89,7 @@ export const CreateAcademicFaculty = () => {
               </Button>
             </Col>
           </Row>
-        </PHRorm>
+        </PHForm>
       </Col>
     </Flex>
   );
