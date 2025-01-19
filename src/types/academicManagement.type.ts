@@ -8,4 +8,11 @@ export interface TAcademicSemester {
     createdAt: string
     updatedAt: string
   }
-  
+  export type TAcademicDepartment = {
+    _id: string
+    name: string
+    academicfaculty: string
+    createdAt: string
+    updatedAt: string
+    __v: number
+  }
