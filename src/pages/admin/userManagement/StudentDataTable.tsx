@@ -1,83 +1,45 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Table, TableColumnsType, TableProps } from "antd";
+import { Button, Space, Table, TableColumnsType, TableProps } from "antd";
 import { useState } from "react";
 import { TQueryParam, TStudent } from "../../../types";
 import { useGetAllStudentsQuery } from "../../../redux/feathers/admin/userManagement.api";
 
 
-export type TTableData = Pick<TStudent, 'name' | "id">
+export type TTableData = Pick<TStudent, 'fullName' | "id">
 
 export const StudentDataTable = () => {
   const [params, setParams] = useState<TQueryParam[] | undefined>(undefined)
   const { data: studentData, isFetching } = useGetAllStudentsQuery(params)
-  console.log(studentData)
-  const tableData = studentData?.data?.map(({ _id, name, id }) => ({
-    key: _id, name, id
+  const tableData = studentData?.data?.map(({ _id, fullName, id }) => ({
+    key: _id, fullName, id
   }))
 
-  console.log(tableData)
 
   const columns: TableColumnsType<TTableData> = [
     {
       title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'fullName',
+      key: 'fullName',
       showSorterTooltip: { target: 'full-header' },
-      filters: [
-        {
-          text: 'Autumn',
-          value: 'Autumn',
-        },
-        {
-          text: 'Summer',
-          value: 'Summer',
-        },
-        {
-          text: 'Fall',
-          value: 'Fall',
-        },
-      ],
     },
     {
-      title: 'Year',
-      key: 'year',
-      dataIndex: 'year',
-      filters: [
-        {
-          text: '2025',
-          value: '2025',
-        },
-        {
-          text: '2026',
-          value: '2026',
-        },
-        {
-          text: '2027',
-          value: '2027',
-        },
-      ],
-    },
-    {
-      title: 'Start Month',
-      key: 'startMonth',
-      dataIndex: 'startMonth',
-
-    },
-    {
-      title: 'End Month',
-      key: 'endMonth',
-      dataIndex: 'endMonth',
+      title: 'Roll Number',
+      key: 'id',
+      dataIndex: 'id',
     },
     {
       title: 'Action',
       key: 'x',
       render: () => {
         return (
-          <div>
+          <Space>
             <Button>Update</Button>
-          </div>
+            <Button>Delete</Button>
+            <Button>Block</Button>
+          </Space>
         )
       },
+      width: '1%'
     },
   ];
 
