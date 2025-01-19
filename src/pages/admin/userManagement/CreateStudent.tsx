@@ -71,8 +71,6 @@ export const CreateStudent = () => {
 
     const res = await addStudent(formData)
     console.log(res)
-    // // this is for development 
-    // console.log(Object.fromEntries(formData))
   }
   return (
     <Row justify="center">
@@ -111,7 +109,12 @@ export const CreateStudent = () => {
                       type="file"
                       value={value?.fileName}
                       {...field}
-                      onChange={(e) => onChange(e.target.files?.[0])}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]; 
+                        if (file) {
+                          onChange(file); 
+                        }
+                      }}
                     />
                   </Form.Item>
                 )}
