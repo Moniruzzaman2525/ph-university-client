@@ -6,6 +6,7 @@ import { PhSelect } from "../../../components/form/PhSelect";
 import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 import PHDatePicker from "../../../components/form/PHDatePicker";
 import { useGetAllDepartmentQuery, useGetAllSemesterQuery } from "../../../redux/feathers/admin/academicManagement.api";
+import { useAddStudentMutation } from "../../../redux/feathers/admin/userManagment.api";
 const studentDefaultValues = {
   name: {
     firstName: 'I am ',
@@ -46,6 +47,9 @@ export const CreateStudent = () => {
 
   const { data: dData, isLoading: dIsLoading } =
     useGetAllDepartmentQuery(undefined);
+
+  const [addStudent] = useAddStudentMutation()
+
   const departmentOptions = dData?.data?.map((item) => ({
     value: item._id,
     label: item.name,
@@ -55,12 +59,18 @@ export const CreateStudent = () => {
     label: `${item.name} ${item.year}`
   }))
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data)
-    // const formData = new FormData()
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const studentData = {
+      password: 'student123',
+      student: data
+    }
+    const formData = new FormData()
 
-    // formData.append('data', JSON.stringify(data))
+    formData.append('data', JSON.stringify(studentData))
+    formData.append('file', data?.image)
 
+    const res = await addStudent(formData)
+    console.log(res)
     // // this is for development 
     // console.log(Object.fromEntries(formData))
   }
