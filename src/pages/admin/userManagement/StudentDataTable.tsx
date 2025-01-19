@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Table, TableColumnsType, TableProps } from "antd";
-import { useGetAllSemesterQuery } from "../../../redux/feathers/admin/academicManagement.api";
 import { TAcademicSemester } from "../../../types/academicManagement.type";
 import { useState } from "react";
 import { TQueryParam } from "../../../types";
+import { useGetAllStudentsQuery } from "../../../redux/feathers/admin/userManagement.api";
 
 
 export type TTableData = Pick<TAcademicSemester, 'name' | "year" | "startMonth" | 'endMonth'>
 
 export const StudentDataTable = () => {
   const [params, setParams] = useState<TQueryParam[] | undefined>(undefined)
-  const { data: semesterData, isFetching } = useGetAllSemesterQuery(params)
+  const { data: semesterData, isFetching } = useGetAllStudentsQuery(params)
   const tableData = semesterData?.data?.map(({ _id, name, startMonth, endMonth, year }) => ({
     key: _id, name, startMonth, endMonth, year
   }))
