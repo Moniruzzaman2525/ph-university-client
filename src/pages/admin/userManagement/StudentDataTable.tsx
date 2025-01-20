@@ -39,7 +39,7 @@ export const StudentDataTable = () => {
       render: () => {
         return (
           <Space>
-            <Button>Update</Button>
+            <Button>Update Student</Button>
             <Button>Delete Student</Button>
             <Button>Block Student</Button>
           </Space>
