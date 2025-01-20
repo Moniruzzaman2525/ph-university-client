@@ -40,7 +40,7 @@ export const StudentDataTable = () => {
         return (
           <Space>
             <Button>Update</Button>
-            <Button>Delete</Button>
+            <Button>Delete Student</Button>
             <Button>Block Student</Button>
           </Space>
         )
