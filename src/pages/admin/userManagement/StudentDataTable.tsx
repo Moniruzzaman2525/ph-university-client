@@ -41,7 +41,7 @@ export const StudentDataTable = () => {
           <Space>
             <Button>Update</Button>
             <Button>Delete</Button>
-            <Button>Block</Button>
+            <Button>Block User</Button>
           </Space>
         )
       },
